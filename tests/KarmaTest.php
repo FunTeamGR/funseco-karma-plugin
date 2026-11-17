@@ -77,8 +77,8 @@ class KarmaTest extends TestCase
 
         $this->assertSame(2, KarmaVote::where('player_id', $this->alice->id)->value('score'));
         $this->assertSame([
-            format_colors('{#server}> {#karma}Vote successful for Track {#highlite}Speed{#karma}!'),
-            format_colors('{#server}> {#karma}Karma of {#highlite}Speed{#karma} is {#highlite}80{#karma}, you think this Track is {#highlite}beautiful{#karma}. Command {#highlite}/++'),
+            format_colors('{#server}> {#server}Vote successful for Track {#highlite}Speed{#server}!'),
+            format_colors('{#server}> {#server}Karma of {#highlite}Speed{#server} is {#highlite}80{#server}, you think this Track is {#highlite}beautiful{#server}. Command {#highlite}/++'),
         ], $this->toLogin('alice'));
     }
 
@@ -91,8 +91,8 @@ class KarmaTest extends TestCase
         $this->assertSame(1, KarmaVote::count());
         $this->assertSame(-3, KarmaVote::first()->score);
         $messages = $this->toLogin('alice');
-        $this->assertSame(format_colors('{#server}> {#karma}Vote changed for Track {#highlite}Speed{#karma}!'), $messages[2]);
-        $this->assertSame(format_colors('{#server}> {#karma}You have already voted for this Track'), end($messages));
+        $this->assertSame(format_colors('{#server}> {#server}Vote changed for Track {#highlite}Speed{#server}!'), $messages[2]);
+        $this->assertSame(format_colors('{#server}> {#server}You have already voted for this Track'), end($messages));
         $this->assertSame(1, app(KarmaBoard::class)->tally()->total());
     }
 
@@ -136,7 +136,7 @@ class KarmaTest extends TestCase
     {
         $this->finishes['bob'] = 1;
         Chat::resolve('/karma', 'bob');
-        $this->assertSame([format_colors('{#server}> {#karma}Karma of {#highlite}Speed{#karma} is {#highlite}0{#karma}, you have {#highlite}not yet voted!')], $this->toLogin('bob'));
+        $this->assertSame([format_colors('{#server}> {#server}Karma of {#highlite}Speed{#server} is {#highlite}0{#server}, you have {#highlite}not yet voted!')], $this->toLogin('bob'));
 
         Chat::resolve('/-', 'alice');
         // bob may vote and hasn't: he gets alice's opinion
